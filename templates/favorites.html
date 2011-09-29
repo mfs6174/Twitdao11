@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}@{{ owner_user.screen_name }}'s favorite tweets.{% endblock title %}
+{% block head%}
+<script src="/js/common.js"></script>
+<script src="/js/tweet.js"></script>
+{% if owner_user %}{% include "inc/user-style.html" %}{% endif %}
+<style type="text/css">#TweetForm{display:none;}</style>
+{% endblock head %}
+{% block main %}
+{% include "inc/user-profile.html" %}
+{% include "inc/tweet-form.html" %}
+{% include "inc/user-nav.html" %}
+<div id="Timeline">
+	<div id="Tlheading">@{{ owner_user.screen_name }}'s favorite tweets.</div>
+	{% if favorites.error %}
+		<ul class="tweets">
+			<li class="nothing"><img src="/images/lock.gif" />{{ favorites.error }}</li>
+		</ul>
+	{% else %}
+		<ul class="tweets">
+		{% if favorites %}
+		{% for tweet in favorites %}
+			{% include "inc/tweet.html" %}
+		{% endfor %}
+		{% else %}
+			<li class="nothing">No tweets here.</li>
+		{% endif %}
+		</ul>
+	{% endif %}
+	<div id="pagination">
+	{% if prev_page %}<a class="prev" href="{{ self.current }}?page={{ prev_page }}">previous page</a>{% endif %}
+	{% if next_page %}<a class="next" href="{{ self.current }}?page={{ next_page }}">next page</a>{% endif %}
+	</div>
+</div>
+{% endblock main%}
+{% block side %}
+{% include "inc/side.html" %}
+{% endblock side %}

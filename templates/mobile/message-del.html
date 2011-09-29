@@ -1,0 +1,3 @@
+{% extends "base.html" %}
+
+{% block main %}<p>Delete this message(id={{ id }})?</p><form action="/m/m-del" method="post"><p><input type="hidden" name="id" value="{{ id }}"><input type="submit" value="Delete"></p></form>{% endblock main%}

@@ -1,0 +1,8 @@
+<ul id="Nav">
+	<li><a{%ifequal where "home" %} class="on"{% endifequal %} href="/t/">Timeline</a></li>
+	<li><a{%ifequal where "mentions" %} class="on"{% endifequal %} href="/t/mentions">@Mentions</a></li>
+	<li><a{%ifequal where "retweeted_by_me" %} class="on"{% endifequal %} href="/t/retweets/retweeted_by_me">Retweets by me</a></li>
+	<li><a{%ifequal where "retweeted_to_me" %} class="on"{% endifequal %} href="/t/retweets/retweeted_to_me">Retweets to me</a></li>
+	<li><a{%ifequal where "retweeted_of_me" %} class="on"{% endifequal %} href="/t/retweets/retweeted_of_me">Retweets of me</a></li>
+	<li><a href="/t/{{ owner_user.screen_name }}/favorites"{% ifequal where "favorites" %} class="on"{% endifequal %}>Favorites</a></li>
+</ul>

@@ -1,0 +1,3 @@
+{% extends "base.html" %}
+
+{% block main %}{% include "tweet-form.html" %}{% if timeline %}{% for tweet in timeline %}{% include "tweet.html" %}{% endfor %}{% else %}<p>No tweet.</p>{% endif %}<p>{% if since_id %}<a href="/m/u-/home?since_id={{ since_id }}">Newer</a>{% endif %} {% if max_id %}<a href="/m/u-/home?max_id={{ max_id }}">Older</a>{% else %}<a href="/m/u-/home">Back</a>{% endif %}</p>{% endblock main %}

@@ -1,0 +1,1 @@
+<form method="post" action="/m/m-send"><p>To: {% if screen_name %}{{ screen_name }}<input type="hidden" name="screen_name" value="{{ screen_name }}">{% else %}<input type="text" name="screen_name" maxlength="15">{% endif %}, <input type="text" name="text" maxlength="140"><input type="submit" value="Send"></p></form>

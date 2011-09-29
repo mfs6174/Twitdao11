@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}{% endblock title %}
+
+{% block head %}
+{% if owner_user %}{% include "inc/user-style.html" %}{% endif %}
+{% endblock head %}
+
+{% block main %}
+{% include "inc/tweet-form.html" %}
+{% if tweet %}
+<ul>
+	{% include "inc/tweet.html" %}
+</ul>
+{% endif %}
+{% endblock main %}
+
+{% block side %}
+{% include "inc/side.html" %}
+{% endblock side %}

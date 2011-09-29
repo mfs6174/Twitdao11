@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Lists Created by {{ owner_user.screen_name }}{% endblock title %}
+
+{% block head %}
+<script src="/js/common.js"></script>
+{% if owner_user %}{% include "inc/user-style.html" %}{% endif %}
+{% endblock head %}
+
+{% block main %}
+{% include "inc/user-profile.html" %}
+{% include "inc/user-nav.html" %}
+<div id="UserList">
+	<div id="Tlheading">Lists Created by {{ owner_user.screen_name }}</div>
+	<ul class="lists">
+	{% if lists %}
+{% for list in lists %}
+	{% include "inc/list.html" %}
+{% endfor %}
+	{% else %}
+	<li class="nothing">No lists.</li>
+	{% endif %}
+	</ul>
+	<div id="pagination">{% if previous_cursor %}<a class="prev" href="{{ self.current }}?cursor={{ previous_cursor_str }}">previous page</a>{% endif %}  {% if next_cursor %}<a class="next" href="{{ self.current }}?cursor={{ next_cursor_str }}">next page</a>{% endif %}</div>
+</div>
+{% endblock main%}
+
+{% block side %}
+{% include "inc/side.html" %}
+{% endblock side %}

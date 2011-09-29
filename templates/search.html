@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}{% endblock title %}
+
+{% block head %}
+{% if owner_user %}{% include "inc/user-style.html" %}{% endif %}
+{% endblock head %}
+
+{% block main %}
+{% include "inc/tweet-form.html" %}
+{% include "inc/main-nav.html" %}
+<div id="Timeline">
+<div id="Tlheading">Search for: {{ q }}</div>
+{% if search_data.error %}
+	<ul class="tweets">
+		<li class="nothing">{{ search_data.error }}</li>
+	</ul>
+{% endif %}
+{% if search_data.results %}
+	<ul class="tweets">
+	{% for result in search_data.results %}
+	<li class="tweet">
+		<span class="tweet-img"><img src="{{ result.profile_image_url }}" width="48" height="48" /></span>
+		<span class="tweet-heading"><a href="/t/{{ result.from_user }}">{{ result.from_user }}</a></span>
+		<span class="tweet-body">{{ result.text|twitter_text_py }}</span>
+		<span class="tweet-bottom"><a href="/a/statuses/{{ result.id}}">{{ result.created_at|human_readable }}</a> {% if result.to_user %}in reply to @<a href="/t/{{ result.to_user }}">{{ result.to_user }}</a>{% endif %} via {{ result.source|unescape|safe }} <span class="tweet-action"><a href="/a/retweet/{{ result.id }}">Retweet</a> <a href="/a/statuses/reply?status_id={{ result.id }}">Reply</a> {% ifequal result.from_user_id token_user.id %}<a href="/a/statuses/delete/{{ result.id }}">Delete</a>{% endifequal %} <a href="#">Quote</a></span></span>
+	</li>
+	{% endfor %}
+	</ul>
+{% endif %}
+<div id="pagination">
+	{% if search_data.previous_page %}<a class="prev" href="{{ self.current }}{{ search_data.previous_page }}">Previous Page</a>{% endif %}
+	{% if search_data.next_page %}<a class="next" href="{{ self.current }}{{ search_data.next_page }}">Next Page</a>{% endif %}
+</div>
+</div>
+{% endblock main%}
+
+{% block side %}
+{% include "inc/side.html" %}
+{% if limit_rate %}
+<div>
+{{ limit_rate.remaining_hits }}/{{limit_rate.hourly_limit}}
+</div>
+{% endif %}
+{% endblock side %}

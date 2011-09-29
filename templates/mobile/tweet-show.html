@@ -1,0 +1,3 @@
+{% extends "base.html" %}
+
+{% block main %}{% if tweet.error %}<p>Error or Not Found.</p>{% else %}{% include "tweet.html" %}{% endif %}{% endblock main%}

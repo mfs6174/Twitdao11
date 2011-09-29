@@ -1,0 +1,13 @@
+{% extends "config.html" %}
+{% block head %}{% endblock head %}
+{% block main %}
+<div id="Config">
+	<div id="ConfigHeading">Memcache</div>
+	<div>{{ stats|pprint }}</div>
+	<div style="padding:10px;text-align:center;">
+	<form action="/config/memcache" method="post">
+		<input type="submit" value="Flush cache" />
+	</form>
+	</div>
+</div>
+{% endblock main %}

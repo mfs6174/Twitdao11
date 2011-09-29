@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}{{ owner_user.screen_name }}{% endblock title %}
+
+{% block head %}<script src="/js/common.js"></script>
+<script src="/js/tweet.js"></script>
+<script src="/js/user.js"></script>
+<script type="text/javascript">
+{% if not timeline.error and  owner_user.screen_name != "gxnews" %}
+$(function(){
+	var m = more('/x1/user/{{ owner_user.screen_name }}/more', {'max_id': {{ max_id|default_if_none:""|to_json }} } );
+	var ref=refresh('/x1/user/{{ owner_user.screen_name }}/refresh', {'since_id':{{ since_id|default_if_none:""|to_json }} });
+	ref.start();
+});
+{% endif %}
+</script>
+<style type="text/css">#TweetForm{display:none;}</style>
+{% if owner_user %}{% include "inc/user-style.html" %}{% endif %}
+{% endblock head %}
+
+{% block main %}
+{% include "inc/user-profile.html" %}
+<div id="Timeline">
+	<div id="Tlheading">
+		<div>Tweets from @{{ owner_user.screen_name }}</div>
+		<div id="LiveBar">
+			<div id="Pause"></div>
+			<div id="Mode"></div>
+		</div>
+	</div>
+	<div id="Notifier"></div>
+	{% if owner_user.protected and timeline.error or owner_user.screen_name == "gxnews" %}
+		<ul class="tweets">
+			<li class="nothing"><img src="/images/lock.gif" />This person has protected their tweets.</li>
+		</ul>
+	{% else %}
+		{% ifequal timeline.error "Not authorized" %}
+		<ul class="tweets">
+			<li class="nothing"><img src="/images/lock.gif" />This person may have blocking you.</li>
+		</ul>
+		{% else %}
+			<ul class="tweets">
+			{% if timeline %}
+			{% for tweet in timeline %}
+				{% include "inc/user-timeline-tweet.html" %}
+			{% endfor %}
+			{% else %}
+				<li class="nothing">No tweets here.</li>
+			{% endif %}
+			</ul>
+		{% endifequal %}
+	{% endif %}
+
+	{% if max_id and owner_user.screen_name != "gxnews" %}<div id="pagination"><img class="loading" src="/images/loading.gif" alt="loading" /><a class="more" href="{{ self.current }}?max_id={{ max_id }}">More</a></div>{% endif %}
+</div>
+{% endblock main%}
+
+{% block side %}
+{% include "inc/side.html" %}
+{% endblock side %}

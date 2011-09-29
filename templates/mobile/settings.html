@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+
+{% block main %}
+<h2>Token Switch</h2><form action="/m/s-token" method="post"><p><select name="tk">{% for tok in tokens %}<option value="{{ tok.key }}"{% ifequal tok.user_id token.user_id %} selected="selected"{% endifequal %}>{{ tok.screen_name }}</option>{% endfor %}</select><input type="submit" value="Switch"></p></form>
+<h2>Media Options</h2><form action="/m/s-media" method="post"><p><label>Show Avatar: <input type="checkbox" name="show_avatar" value="t"{% if token.settings.m_show_avatar %} checked="checked"{% endif %} /></label><br /><label>Show Media: <input type="checkbox" name="show_media" value="t"{% if token.settings.m_show_media %} checked="checked"{% endif %} /></label><br /><input type="submit" value="Save"></p></form>
+<h2>Mobile Web Optimizer</h2><form action="/m/s-opti" method="post"><p><label>Google GWT: <input type="radio" name="opti" value="google-gwt"{% ifequal token.settings.m_optimizer "google-gwt" %} checked="checked"{% endifequal %} /></label><br /><label>Baidu 开放平台: <input type="radio" name="opti" value="baidu-gate"{% ifequal token.settings.m_optimizer "baidu-gate" %} checked="checked"{% endifequal %} /></label><br /><label>None: <input type="radio" name="opti" value="none"{% if not token.settings.m_optimizer %} checked="checked"{% endif %} /></label><br /><input type="submit" value="Save"></p></form>
+{% endblock main %}

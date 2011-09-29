@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}{{ list.full_name }}{% endblock title %}
+
+{%block head%}<script src="/js/common.js"></script>
+<script src="/js/user.js"></script>
+{% if owner_user %}{% include "inc/user-style.html" %}{% endif %}
+{%endblock head%}
+
+{% block main %}
+{% include "inc/tweet-form.html" %}
+{% include "inc/list-info.html" %}
+<div id="UserList">
+	<div id="Tlheading">{{ list.full_name }}'s Following</div>
+	{% if error %}
+		<ul class="users">
+			<li class="nothing">{{ error }}</li>
+		</ul>
+	{% else %}
+		<ul class="users">
+		{% if following %}
+		{% for user in following %}
+			{% include "inc/user.html" %}
+		{% endfor %}
+		{% else %}
+			<li class="nothing">No following.</li>
+		{% endif %}
+		</ul>
+	{% endif %}
+	<div id="pagination">{% if previous_cursor %}<a class="prev" href="{{ self.current }}?cursor={{ previous_cursor_str }}">previous page</a>{% endif %}  {% if next_cursor %}<a class="next" href="{{ self.current }}?cursor={{ next_cursor_str }}">next page</a>{% endif %}</div>
+</div>
+{% endblock main%}
+
+{% block side %}
+{% include "inc/side.html" %}
+{% endblock side %}

@@ -1,0 +1,3 @@
+{% extends "base.html" %}
+
+{% block main %}{% include "user-profile.html" %}{% include "user-action.html" %}{% if owner_user.protected %}<p>This person has protected their tweets.</p>{% else %}{% if timeline.error %}<p>Error or Not Found.</p>{% else %}{% if timeline %}{% for tweet in timeline %}{% include "tweet.html" %}{% endfor %}{% else %}<p>No tweet.</p>{% endif %}<p>{% if since_id %}<a href="/m/u-{{ owner_user.screen_name }}?since_id={{ since_id }}">Newer</a>{% endif %} {% if max_id %}<a href="/m/u-{{ owner_user.screen_name }}?max_id={{ max_id }}">Older</a>{% else %}<a href="/m/u-{{ owner_user.screen_name }}">Older</a>{% endif %}</p>{% endif %}{% endif %}{% endblock main %}

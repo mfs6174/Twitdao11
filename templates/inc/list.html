@@ -1,0 +1,5 @@
+<li class="list" slug="{{ list.slug }}" lid="{{ list.id }}">
+	<span class="list-img"><img src="{{ list.user.profile_image_url|secure_image }}" width="36" height="36" /></span>
+	<span class="list-heading">{% ifequal list.mode "private" %}<img src="/images/lock.gif" />{% endifequal %}<a href="/t{{ list.uri }}" class="full-name">{{ list.full_name }}</a> Following:{{ list.member_count }} Followers:{{ list.subscriber_count }} <span class="list-action">{% ifnotequal list.user.id token_user.id %}{% if list.following %}<a href="/a/list_unfollow{{ list.uri }}" class="list_unfo">Unfollow</a> {% else %}<a href="/a/list_follow{{ list.uri }}" class="list_fo">Follow</a> {% endif %}{% else %}<a href="/a/list_edit/{{ list.slug }}" class="list_edit">Edit</a> <a href="/a/list_delete/{{ list.slug }}" class="list_delete">Delete</a>{% endifnotequal %}</span></span>
+	<span class="list-bio">{{ list.description }}</span>
+</li>

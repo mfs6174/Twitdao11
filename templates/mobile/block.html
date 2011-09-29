@@ -1,0 +1,3 @@
+{% extends "base.html" %}
+
+{% block main %}{% include "mobile/user-profile-lite.html" %}<form action="/m/u-{{ user.screen_name }}/b" method="post"><p><input type="Submit" value="Block"></p></form>{% endblock main %}

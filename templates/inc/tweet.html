@@ -1,0 +1,55 @@
+{% if tweet.retweeted_status %}
+<li class="tweet" tid="{{ tweet.id }}" sid="{{ tweet.retweeted_status.id }}" {% ifequal tweet.user.id token_user.id %}uid="{{tweet.id}}"{%endifequal%}{% if tweet.retweeted_status.in_reply_to_user_id %} rid="{{ tweet.retweeted_status.in_reply_to_status_id }}"{% endif %}>
+	<span class="tweet-img"><img src="{{ tweet.retweeted_status.user.profile_image_url|secure_image }}" width="48" height="48" alt="{{ tweet.retweeted_status.user.name }}" /></span>
+	<span class="tweet-body">
+	<span class="tweet-heading  retweeteds">
+	<span class="screen_name"><img src="/images/retweeted.png" alt="retweet"> <a href="/t/{{ tweet.retweeted_status.user.screen_name }}">{{ tweet.retweeted_status.user.screen_name }}</a></span> {{ tweet.retweeted_status.user.name }}<span> {% if tweet.retweeted_status.geo %}- at <a class="show-geo" href="#">Here!</a>{% endif %} Retweeted by <a href="/t/{{ tweet.user.screen_name }}">{{ tweet.user.screen_name }}  </a> ({{ tweet.retweeted_status.retweet_count }})</span></span>
+	<span class="tweet-text">{{ tweet.retweeted_status.text|twitter_text_py|safe }}</span>
+	<span class="tweet-bottom"><a class="created-at" href="/a/statuses/{{ tweet.retweeted_status.id}}" time="{{ tweet.created_at|milliseconds }}">{{ tweet.created_at|human_readable }}</a> {% if tweet.retweeted_status.in_reply_to_status_id %}<a href="/a/statuses/{{ tweet.retweeted_status.in_reply_to_status_id }}" class="show-reply-to">in reply to</a> @<a href="/t/{{ tweet.retweeted_status.in_reply_to_screen_name }}">{{ tweet.retweeted_status.in_reply_to_screen_name }}</a>{% endif %} via {{ tweet.retweeted_status.source|safe }} <span class="tweet-action">{% if tweet.retweeted_status.favorited %}<a class="unfav" href="/t/{{ token_user.screen_name }}/favorites/destroy/{{ tweet.retweeted_status.id }}">★Favorite</a>{%else%}<a class="fav" href="/t/{{ token_user.screen_name }}/favorites/create/{{ tweet.retweeted_status.id }}">☆Favorite</a>{% endif %} {% ifnotequal tweet.user.id token_user.id %}<a class="retweet" href="/a/retweet/{{ tweet.retweeted_status.id }}">Retweet</a>{% endifnotequal %} <a class="reply" href="/a/statuses/reply?status_id={{ tweet.retweeted_status.id }}">Reply</a> {% ifequal tweet.user.id token_user.id %}<a class="unrt" href="/a/statuses/delete/{{ tweet.id }}">Undo Retweet</a>{% endifequal %} <a class="quote" href="#">Quote</a></span></span>
+	{% if token.settings.show_media and tweet.retweeted_status.entities %}
+	<span class="media-preview">
+		<span class="media-content">
+		{% if tweet.retweeted_status.geo %}
+		<img class="geo" src="http://maps.google.com/maps/api/staticmap?center={{ tweet.retweeted_status.geo.coordinates.0 }},{{ tweet.retweeted_status.geo.coordinates.1 }}&zoom=13&size=320x240&
+markers=icon:{{ tweet.retweeted_status.user.profile_image_url|secure_image }}%7C{{ tweet.retweeted_status.geo.coordinates.0 }},{{ tweet.retweeted_status.geo.coordinates.1 }}&sensor=false" />
+		{% endif %}
+		{% for url in tweet.retweeted_status.entities.urls %}
+			{{ url.url|image_preview|safe }}
+		{% endfor %}
+		</span>
+	</span>
+	{% endif %}
+	</span>
+	{% if tweet.retweeted_status.in_reply_to_user_id %}
+	<span class="reply-to"></span>
+	{% endif %}
+</li>
+{% else %}
+<li class="tweet{% ifequal tweet.in_reply_to_user_id token_user.id %} reply-to-me{% endifequal %}" tid="{{ tweet.id }}"{% if tweet.in_reply_to_user_id %} rid="{{ tweet.in_reply_to_status_id }}"{% endif %}>
+	<span class="tweet-img"><img src="{{ tweet.user.profile_image_url|secure_image }}" width="48" height="48" alt="{{ tweet.user.name }}" /></span>
+	<span class="tweet-body">
+	<span class="tweet-heading"><span class="screen_name"><a href="/t/{{ tweet.user.screen_name }}">{{ tweet.user.screen_name }}</a></span> {{ tweet.user.name }} {% if tweet.geo %}- at <a class="show-geo" href="#">Here!</a>{% endif %} {% if tweet.retweet_count %} ({{ tweet.retweet_count }}) {% endif %}</span>
+	<span class="tweet-text">{{ tweet.text|twitter_text_py|safe }}</span>
+	<span class="tweet-bottom">{% if tweet.user.protected %}<img src="/images/lock.gif" />{% endif %}<a class="created-at" href="/a/statuses/{{ tweet.id}}" time="{{ tweet.created_at|milliseconds }}">{{ tweet.created_at|human_readable }}</a> {% if tweet.in_reply_to_status_id %}<a href="/a/statuses/{{ tweet.in_reply_to_status_id }}" class="show-reply-to">in reply to</a> @<a href="/t/{{ tweet.in_reply_to_screen_name }}">{{ tweet.in_reply_to_screen_name }}</a>{% endif %} via {{ tweet.source|safe }} <span class="tweet-action">{% if tweet.favorited %}<a class="unfav" href="/t/{{ token_user.screen_name }}/favorites/destroy/{{ tweet.id }}">★Favorite</a>{%else%}<a class="fav" rel="{{ tweet.id }}" href="/t/{{ token_user.screen_name }}/favorites/create/{{ tweet.id }}">☆Favorite</a>{% endif %} {% ifnotequal tweet.user.id token_user.id %}{% if not tweet.user.protected %}<a class="retweet" href="/a/retweet/{{ tweet.id }}">Retweet</a>{% endif %}{% endifnotequal %} <a class="reply" href="/a/statuses/reply?status_id={{ tweet.id }}">Reply</a> {% ifequal tweet.user.id token_user.id %}<a class="delete" href="/a/statuses/delete/{{ tweet.id }}">Delete</a>{% endifequal %} <a class="quote" href="#">Quote</a></span></span>
+	{% if token.settings.show_media and tweet.entities %}
+	<span class="media-preview">
+		<span class="media-content">
+		{% if tweet.geo %}
+		<img class="geo" src="http://maps.google.com/maps/api/staticmap?center={{ tweet.geo.coordinates.0 }},{{ tweet.geo.coordinates.1 }}&zoom=13&size=320x240&
+markers=icon:{{ tweet.user.profile_image_url|secure_image }}%7C{{ tweet.geo.coordinates.0 }},{{ tweet.geo.coordinates.1 }}&sensor=false" />
+		{% endif %}
+		{% for url in tweet.entities.urls %}
+			{{ url.url|image_preview|safe }}
+		{% endfor %}
+		{% for media_url in tweet.entities.media %}
+			<img src="{{media_url.media_url}}" width="480">
+		{% endfor %}
+		</span>
+	</span>
+	{% endif %}
+	</span>
+	{% if tweet.in_reply_to_user_id %}
+		<span class="reply-to"></span>
+	{% endif %}
+</li>
+{% endif %}

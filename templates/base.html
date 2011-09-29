@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>{% block title %}{% endblock title %}</title>
+		<link href="/css/main.css" rel="stylesheet" type="text/css" />
+		<script src="/js/jquery-1.4.2.min.js"></script>
+		<script type="text/javascript">var $c={'tsn':{{ token_user.screen_name|to_json }},'osn':{{ owner_user.screen_name|to_json }} };</script>
+{% block head %}{% endblock head %}
+	</head>
+	<body>
+		<div id="Tip"></div>
+		<div id="TinyTip"></div>
+		<div id="Topbar">
+			<div class=toolbar>
+			<div class="logo"><a href="/t/">Twitdao</a></div>
+            <form action="/a/search" method="get" id="SearchForm">
+                <input id="Q" type="text" name="q" value="{{ q }}" />
+                <input type="submit" value="Search" />
+            </form>
+			<ul>
+				<li><a href="/t/">Home</a></li>
+				{% if token_user %}
+				<li><a href="/t/{{ token_user.screen_name }}">{{ token_user.screen_name }}</a></li>
+				<li><a href="/a/messages">Messages</a></li>
+				<li><a href="/settings/profile?tk={{ token.key }}">Settings</a></li>
+				{% endif %}
+				<li><a href="{{ self.logout_url }}">SignOut</a></li>
+			</ul>
+			</div>
+		</div>
+		<div id="Wrapper">
+			<div id="Overlay"></div>
+			<div id="Main">
+			{% block main %}{% endblock main %}
+			</div>
+			<div id="Side">
+			{% block side %}{% endblock side %}
+			</div>
+			<div id="ToTop">Top</div>
+			<div id="LToTop">Top</div>
+		</div>
+	</body>
+</html>

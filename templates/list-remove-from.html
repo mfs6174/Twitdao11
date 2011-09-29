@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}{{ list.full_name }}{% endblock title %}
+
+{%block head%}
+{% if owner_user %}{% include "inc/user-style.html" %}{% endif %}
+<style type="text/css">
+.heading{
+	font-weight:bold;
+	font-size:18px;
+	padding:10px;
+}
+</style>
+{%endblock head%}
+
+{% block main %}
+<div id="Confirm">
+<div class="confirm-heading">Remove {{ remove_user.screen_name }} from list {{ list.full_name }}?</div>
+<div class="heading">From:</div>
+	<div class="list" slug="{{ list.slug }}" lid="{{ list.id }}">
+		<span class="list-img"><img src="{{ list.user.profile_image_url|secure_image }}" width="36" height="36" /></span>
+		<span class="list-heading">{% ifequal list.mode "private" %}<img src="/images/lock.gif" />{% endifequal %}<a href="/t{{ list.uri }}" class="full-name">{{ list.full_name }}</a> Following:{{ list.member_count }} Followers:{{ list.subscriber_count }} </span>
+		<span class="list-bio">{{ list.description }}</span>
+	</div>
+<div class="heading">Remove:</div>
+	<div class="user">
+		<span class="user-img"><img src="{{ remove_user.profile_image_url|secure_image }}" width="48" height="48" /></span>
+		<span class="user-heading"><a href="/t/{{ remove_user.screen_name }}">{{ remove_user.screen_name }}</a> {{ remove_user.name }} Followers:{{ remove_user.followers_count }} Following:{{ remove_user.friends_count }} Tweets:{{ remove_user.statuses_count }}</span>
+		<span class="user-bio">{{ remove_user.description|default_if_none:"" }}</span>
+	</div>
+<div id="ConfirmAction">
+	<form method="post" />
+	<input type="submit" value="Remove" />
+	<input type="button" value="Cancel" onclick="javascript:history.go(-1);" />
+	</form>
+</div>
+</div>
+
+{% endblock main%}
+
+{% block side %}
+{% include "inc/side.html" %}
+{% endblock side %}

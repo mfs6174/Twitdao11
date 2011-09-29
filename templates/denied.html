@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Denied!{% endblock title %}
+
+{% block head %}
+<style type="text/css">
+#Main{width:960px !important;}
+#Side{display:none;}
+</style>
+<script type="text/javascript">
+setTimeout(function(){
+	window.location='/settings';
+}, 5000);
+</script>
+{% endblock head %}
+
+{% block main %}
+<div style="text-align:center;padding:100px 0;background:#FFF0E1;color:#EC7000;">
+<h2>You have denied Twitdao to access your twitter account!</h2>
+<p>Redirecting you to settings page...</p>
+</div>
+{% endblock main%}

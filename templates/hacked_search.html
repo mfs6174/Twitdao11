@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}{% endblock title %}
+
+{% block head %}<script src="/js/common.js"></script>
+<script src="/js/tweet.js"></script>
+<script type="text/javascript">
+$(function(){
+	var m = more('/x/search/more', {'page': {{ search_data.next_page|to_json }}, 'q':{{ q|to_json }} } );
+	var ref=refresh('/x/search/refresh', {'since_id':{{ since_id|to_json }},'q':{{q|to_json}} });
+	ref.min_intval=8*1000;// 8 seconds
+	ref.start();
+
+});
+</script>
+{% if owner_user %}{% include "inc/user-style.html" %}{% endif %}
+{% endblock head %}
+
+{% block main %}
+{% include "inc/tweet-form.html" %}
+{% include "inc/main-nav.html" %}
+<div id="Timeline">
+<div id="Tlheading">
+	<div>Search for: <a href="/a/search?q={{ q|urlencode }}">{{ q }}</a></div>
+	<div id="LiveBar">
+		<div id="Pause"></div>
+		<div id="Mode"></div>
+	</div>
+</div>
+<div id="Notifier"></div>
+<ul class="tweets">
+{% if search_data.error %}
+	<li class="nothing">{{ search_data.error }}</li>
+{% else %}
+	{% for tweet in search_data.statuses %}
+		{% include "inc/tweet.html" %}
+	{% endfor %}
+{% endif %}
+</ul>
+<div id="pagination">
+	{% if search_data.next_page %}<img class="loading" src="/images/loading.gif" alt="loading" /><a class="more" href="{{ self.current }}?page={{ search_data.next_page|urlencode }}&q={{ q|urlencode }}">More...</a>{% endif %}
+</div>
+</div>
+{% endblock main%}
+
+{% block side %}
+{% include "inc/side.html" %}
+{% endblock side %}

@@ -1,0 +1,6 @@
+<div id="ListInfo">
+	<div class="img"><img src="{{list.user.profile_image_url|secure_image}}" width="24" height="24" /></div>
+	<div class="heading">{{ list.full_name }}</div>
+	<div class="bio">{{ list.description }}</div>
+	<div class="bar"><span class="nav"><a href="/t{{ list.uri }}"{% ifequal where "list-timeline" %} class="on"{% endifequal %}>Timeline</a> <a href="/t{{ list.uri }}/following"{% ifequal where "list-following" %} class="on"{% endifequal %}>Following:{{ list.member_count }}</a> <a href="/t{{ list.uri }}/followers"{% ifequal where "list-followers" %} class="on"{% endifequal %}>Followers:{{ list.subscriber_count }}</a></span> <div class="action">{% ifequal list.user.id token_user.id %}<a href="/a/list_edit/{{ list.slug }}">Edit</a> <a href="/a/list_delete/{{ list.slug }}">Delete</a>{% else %}{% if list.following %}<a href="/a/list_unfollow{{ list.uri }}">Unfollow</a>{% else %}<a href="/a/list_follow{{ list.uri }}">Follow</a>{% endif %}{% endifequal %}</div></div>
+</div>

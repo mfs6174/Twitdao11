@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+{% block title %}{{ owner_user.screen_name }}{% endblock title %}
+
+{% block head %}<script src="/js/common.js"></script>
+<script src="/js/tweet.js"></script>
+<script src="/js/user.js"></script>
+<script type="text/javascript">
+{% if not timeline.error %}
+$(function(){
+	var m = more('/x/user/{{ owner_user.screen_name }}/more', {'max_id': {{ max_id|default_if_none:""|to_json }} } );
+	var ref=refresh('/x/user/{{ owner_user.screen_name }}/refresh', {'since_id':{{ since_id|default_if_none:""|to_json }} });
+	ref.start();
+});
+{% endif %}
+{% ifnotequal token_user.id owner_user.id %}
+$(function(){
+	var conns=$('#Conns');
+	$.ajax({
+		'type':'GET',
+		'url':'/x/following_followers_of?user_id='+{{ owner_user.id|to_json }},
+		'dataType':'json',
+		'success':function(d){
+			if(d&&d.success){
+				$('#FFoF').append(d.html).slideDown();
+			}
+		}
+	});
+	$.ajax({
+		'type':'GET',
+		'url':'/x/follows_in_common_with?user_id='+{{ owner_user.id|to_json }},
+		'dataType':'json',
+		'success':function(d){
+			if(d&&d.success){
+				$('#FiCw').append(d.html).slideDown();
+			}
+		}
+	});
+
+});
+{% endifnotequal %}
+</script>
+<style type="text/css">#TweetForm{display:none;}</style>
+{% if owner_user %}{% include "inc/user-style.html" %}{% endif %}
+{% endblock head %}
+
+{% block main %}
+{% include "inc/user-profile.html" %}
+{% include "inc/tweet-form.html" %}
+{% include "inc/user-nav.html" %}
+<div id="Timeline">
+	<div id="Tlheading">
+		<div>Tweets from @{{ owner_user.screen_name }}</div>
+		<div id="LiveBar">
+			<div id="Pause"></div>
+			<div id="Mode"></div>
+		</div>
+	</div>
+	<div id="Notifier"></div>
+	{% if owner_user.protected and timeline.error %}
+		<ul class="tweets">
+			<li class="nothing"><img src="/images/lock.gif" />This person has protected their tweets.</li>
+		</ul>
+	{% else %}
+		{% ifequal timeline.error "Not authorized" %}
+		<ul class="tweets">
+			<li class="nothing"><img src="/images/lock.gif" />This person may have blocking you.</li>
+		</ul>
+		{% else %}
+			<ul class="tweets">
+			{% if timeline %}
+			{% for tweet in timeline %}
+				{% include "inc/tweet.html" %}
+			{% endfor %}
+			{% else %}
+				<li class="nothing">No tweets here.</li>
+			{% endif %}
+			</ul>
+		{% endifequal %}
+	{% endif %}
+
+	{% if max_id %}<div id="pagination"><img class="loading" src="/images/loading.gif" alt="loading" /><a class="more" href="{{ self.current }}?max_id={{ max_id }}">More</a></div>{% endif %}
+</div>
+{% endblock main%}
+
+{% block side %}
+{% include "inc/side.html" %}
+{% endblock side %}

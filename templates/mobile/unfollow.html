@@ -1,0 +1,3 @@
+{% extends "base.html" %}
+
+{% block main %}{% include "user-profile-lite.html" %}<form action="/m/u-{{ user.screen_name }}/ufo" method="post"><p><input type="Submit" value="UnFollow"></p></form>{% endblock main %}

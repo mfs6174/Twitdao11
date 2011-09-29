@@ -1,0 +1,9 @@
+<ul id="Nav">
+	<li><a href="/t/{{ owner_user.screen_name }}"{% ifequal where "user" %} class="on"{% endifequal %}>Timeline</a></li>
+	<li><a href="/t/{{ owner_user.screen_name }}/favorites"{% ifequal where "favorites" %} class="on"{% endifequal %}>Favorites</a></li>
+	<li><a href="/t/{{ owner_user.screen_name }}/following"{% ifequal where "following" %} class="on"{% endifequal %}>Following</a></li>
+	<li><a href="/t/{{ owner_user.screen_name }}/followers"{% ifequal where "followers" %} class="on"{% endifequal %}>Followers</a></li>
+	<li><a href="/t/{{ owner_user.screen_name }}/lists"{% ifequal where "lists" %} class="on"{% endifequal %}>Lists</a></li>
+	<li><a href="/t/{{ owner_user.screen_name }}/lists/subscriptions"{% ifequal where "list-subscriptions" %} class="on"{% endifequal %}>List Subscriptions</a></li>
+	<li><a href="/t/{{ owner_user.screen_name }}/lists/memberships"{% ifequal where "list-memberships" %} class="on"{% endifequal %}>List Memberships</a></li>
+</ul>

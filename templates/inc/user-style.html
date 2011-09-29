@@ -1,0 +1,13 @@
+<style type="text/css">
+body{
+	background-image:url('{{ owner_user.profile_background_image_url|secure_image }}');
+	{% if owner_user.profile_background_tile %}background-repeat: repeat;{% else %}background-repeat: no-repeat;{% endif %}
+	background-attachment:fixed;
+	background-color:#{{ owner_user.profile_background_color }};
+	color:#{{ owner_user.profile_text_color }};
+}
+a{color:#{{ owner_user.profile_link_color }};}
+#Main{border-right:#{{owner_user.profile_sidebar_border_color}} solid 1px;}
+#Overlay{background-color:#{{ owner_user.profile_sidebar_fill_color }};}
+#ToTop,#LToTop{border-color:#{{owner_user.profile_sidebar_border_color}}}
+</style>

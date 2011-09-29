@@ -1,0 +1,41 @@
+{% extends "settings-base.html" %}
+
+{% block title %}{% endblock title %}
+
+{% block head %}{% endblock head %}
+
+{% block main %}
+<div id="Settings">
+	<div class="heading">Profile Settings:</div>
+	<div>
+	<form method="post" enctype="multipart/form-data">
+		<table>
+		<tr>
+			<td width="80" valign="top"><label for="Pf_picture">Picture</label></td>
+			<td><img src="{{ token_user.profile_image_url }}" width="73" height="73" /><input id="Pf_picture" name="picture" type="file" /></td>
+		</tr>
+		<tr>
+			<td width="80"><label for="Pf_name">Name</label></td>
+			<td><input id="Pf_name" name="name" type="text" maxlength="20" value="{{ token_user.name|default_if_none:"" }}" /></td>
+		</tr>
+		<tr>
+			<td><label for="Pf_location">Location</label></td>
+			<td><input id="Pf_location" type="text" name="location" value="{{ token_user.location|default_if_none:"" }}" /></td>
+		</tr>
+		<tr>
+			<td><label for="Pf_url">Web</label></td>
+			<td><input id="Pf_url" type="text" name="url" value="{{ token_user.url|default_if_none:"http://" }}" /></td>
+		</tr>
+		<tr>
+			<td valign="top"><label for="Pf_bio">Bio</label></td>
+			<td><textarea id="Pf_bio" name="description">{{ token_user.description|default_if_none:"" }}</textarea></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><input type="submit" value="Save" /></td>
+		</tr>
+		</table>
+	</form>
+	</div>
+</div>
+{% endblock main%}

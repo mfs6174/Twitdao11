@@ -1,0 +1,16 @@
+queue:
+
+- name: default
+  rate: 5/s
+
+- name: cache
+  rate: 5/s
+  retry_parameters:
+    task_retry_limit: 1
+    task_age_limit: 30s
+
+- name: clean-up-accesses
+  rate: 5/s
+  retry_parameters:
+    task_retry_limit: 1
+    task_age_limit: 30s

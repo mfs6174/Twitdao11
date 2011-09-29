@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block head %}
+{% if owner_user %}{% include "inc/user-style.html" %}{% endif %}
+{% endblock head %}
+
+{% block main %}
+<div id="Confirm">
+<div class="confirm-heading">{% block heading %}{% endblock heading %}</div>
+<div class="user">
+	<span class="user-img"><img src="{{ user.profile_image_url }}" width="48" height="48" /></span>
+	<span class="user-heading"><a href="/t/{{ user.screen_name }}">{{ user.screen_name }}</a> {{ user.name }} Followers:{{ user.followers_count }} Following:{{ user.friends_count }} Tweets:{{ user.statuses_count }}</span>
+	<span class="user-bio">{{ user.description }}</span>
+</div>
+<div id="ConfirmAction">
+	<form action="{% block action %}{% endblock action %}" method="post" />
+	<input type="submit" value="{% block button %}{% endblock button %}" />
+	<input type="button" value="Cancel" onclick="javascript:history.go(-1);" />
+	</form>
+</div>
+</div>
+{% endblock main %}
+
+{% block side %}
+{% include "inc/side.html" %}
+{% endblock side %}

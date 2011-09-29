@@ -1,0 +1,22 @@
+<div id="UserProfile">
+	<div class="img"><a href="{{ owner_user.profile_image_url|origin_image|secure_image }}" target="_blank"><img src="{{ owner_user.profile_image_url|secure_image }}" width="72" height="72" alt="{{ owner_user.screen_name }}" /></a></div>
+	<div class="name">{{ owner_user.name }}</div>
+	{% if owner_user.verified %}<div class="v"><em>㊣√ Verified Account!</em></div>{% endif %}
+	<div class="screen-location"><span class="screen-name">@{{ owner_user.screen_name }}</span> {{ owner_user.location|default_if_none:"" }}</div>
+	<div class="bio">{{ owner_user.description|default_if_none:"" }}</div>
+	{% if owner_user.url %}<div class="url"><a href="{{ owner_user.url|default_if_none:"" }}" target="_blank">{{ owner_user.url }}</a></div>{% endif %}
+	<div class="can"><span>Account created at {{ owner_user.created_at|time_format }}, number is {{ owner_user.id }}. </span></div>
+	<div class="can"><span>{% tweet_stats owner_user.statuses_count owner_user.created_at %} tweets/day on average.</span></div>
+</div>
+<div id="Comp">
+	<ul>
+		<li>{% ifequal token_user.id owner_user.id %}<a>That's you!</a>{% else %}{% if not owner_user.following %}<a class="follow" href="/a/follow/{{ owner_user.screen_name }}" data="{{ owner_user.screen_name }}">Follow</a>{% else %}<a class="unfollow" href="/a/unfollow/{{ owner_user.screen_name }}" data="{{ owner_user.screen_name }}">Unfollow</a>{% endif %}{% endifequal %}</li>
+		<li><a class="alist" href="/a/list_add/{{ owner_user.screen_name }}" data="{{ owner_user.screen_name }}">Add to list...</a></li>
+		{% ifnotequal owner_user.id token_user.id %}
+		{% if friendship.relationship.source.followed_by %}<li><a class="msg" href="/a/messages_new?screen_name={{ owner_user.screen_name }}" data="{{ owner_user.screen_name }}">Message</a></li>{% endif %}
+		{% ifnotequal token_user.id owner_user.id %}<li><a class="mention" href="/a/statuses/mention?screen_name={{ owner_user.screen_name }}" data="{{ owner_user.screen_name }}">Mention</a></li>{% endifnotequal %}
+		{% if friendship.relationship.source.blocking %}<li><a class="unblock" href="/a/unblock/{{ owner_user.screen_name }}" data="{{ owner_user.screen_name }}">Unblock</a></li>{%else%}<li><a class="block" href="/a/block/{{ owner_user.screen_name }}" data="{{ owner_user.screen_name }}">Block</a></li>{% endif %}
+		{% if not friendship.relationship.source.marked_spam %}<li><a class="report" href="/a/report_spam/{{ owner_user.screen_name }}" data="{{ owner_user.screen_name }}">Report spam</a></li>{% endif %}
+		{% endifnotequal %}
+	</ul>
+</div>

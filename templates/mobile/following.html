@@ -1,0 +1,3 @@
+{% extends "base.html" %}
+
+{% block main %}{% include "user-profile.html" %}<ol>{% for user in following %}<li><a href="/m/u-{{ user.screen_name }}">{{ user.name }} <span class="a">({{ user.screen_name }})</span></a></li>{% endfor %}</ol><p>{% if previous_cursor %}<a href="/m/u-{{ owner_user.screen_name }}/foing?cursor={{ previous_cursor_str }}">Prev</a>{% endif %} {% if next_cursor %}<a href="/m/u-{{ owner_user.screen_name }}/foing?cursor={{ next_cursor_str }}">Next</a>{% endif %}</p>{% endblock main %}

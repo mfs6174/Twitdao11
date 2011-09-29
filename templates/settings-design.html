@@ -1,0 +1,134 @@
+{% extends "settings-base.html" %}
+
+{% block title %}{% endblock title %}
+
+{% block head %}
+<link href="/css/colorpicker.css" rel="stylesheet" type="text/css" />
+<script src="/js/colorpicker.js"></script>
+<script type="text/javascript">
+$(function(){
+	function bgTab(){
+		$('#Ds_bg').show();
+		$('#Ds_colors').hide();
+		$('#Ds_btn_bg a').addClass('color-input-on');
+		$('#Ds_btn_colors a').removeClass('color-input-on');
+	}
+	function colorTab(){
+		$('#Ds_bg').hide();
+		$('#Ds_colors').show();
+		$('#Ds_btn_bg a').removeClass('color-input-on');
+		$('#Ds_btn_colors a').addClass('color-input-on');
+	}
+	function init(){
+		var hash=window.location.hash;
+		if(hash=='#colors'){
+			colorTab();
+		}else if(hash=='#background_image'){
+			bgTab();
+		}
+	}
+	$('#Ds_btn_bg a').click(function(e){
+		bgTab();
+	});
+	$('#Ds_btn_colors a').click(function(e){
+		colorTab();
+	});
+	init();
+
+	function reset(){
+		$('.color-input').each(function(){
+			var $i=$(this);
+			var v=$i.val();
+			var hex = parseInt(((v.indexOf('#') > -1) ? v.substring(1) : v), 16);
+			var rgb = {r: hex >> 16, g: (hex & 0x00FF00) >> 8, b: (hex & 0x0000FF)};
+			var max = Math.max(rgb.r, rgb.g, rgb.b);
+			var b = max*100/255;
+			if(b>=50){$i.css('color','#000');}else{$i.css('color','#fff');}
+			$i.css('background-color','#'+v);
+		}).removeClass('color-input-current-selection');
+		$('#Ds_ColorPicker').addClass('color-picker-init').ColorPickerSetColor('ff0000').removeData('_current_selection');
+	}
+	$('#Ds_ColorPicker').ColorPicker({
+		'livePreview':true,
+		'onChange':function(hsb, hex, rgb, el){
+			$curr=$('#Ds_ColorPicker').data('_current_selection');
+			if($curr){
+				$curr.val(hex).css('background-color','#'+hex);
+				if(hsb.b>=50){$curr.css('color','#000');}else{$curr.css('color','#fff');}
+			}
+		},
+		'flat':true
+	});
+	$('.color-input').focus(function(){
+		$('#Ds_ColorPicker').ColorPickerSetColor($(this).val()).removeClass('color-picker-init');
+		$('#Ds_ColorPicker').data('_current_selection', $(this));
+		$('.color-input').removeClass('color-input-current-selection');
+		$(this).addClass('color-input-current-selection');
+	}).keydown(function(e){e.preventDefault();return false});
+	$('#Ds_form_colors').bind('reset', function(){setTimeout(function(){reset()},0)});
+	reset();
+});
+</script>
+{% endblock head %}
+
+{% block main %}
+<div id="Settings">
+	<div class="heading">Design Settings:</div>
+	<div>
+		<div id="Ds_nav">
+			<ul>
+				<li id="Ds_btn_colors"><a href="#colors">Design colors</a></li>
+				<li id="Ds_btn_bg"><a href="#background_image">Design background image</a></li>
+			</ul>
+		</div>
+		<div id="Ds_bg">
+			<form method="post" enctype="multipart/form-data">
+			<input type="hidden" name="ds_type" value="background" />
+			<table>
+			<tr>
+				<td colspan="2"><input type="file" name="image" /></td>
+			</tr>
+			<tr>
+				<td><label for="Tile">Tile background</label></td>
+				<td><input type="checkbox" id="Tile" name="tile" value="true"{% if token_user.profile_background_tile %} checked="checked"{% endif %} /></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td><input type="submit" value="Save" /></td>
+			</tr>
+			</table>
+			</form>
+		</div>
+		<div id="Ds_colors">
+			<form method="post" id="Ds_form_colors">
+			<input type="hidden" name="ds_type" value="colors" />
+			<table>
+			<tr>
+				<td><label for="Color_bg">Background</label></td>
+				<td><input type="text" id="Color_bg" name="profile_background_color" class="color-input" value="{{ token_user.profile_background_color }}" /></td>
+			</tr>
+			<tr>
+				<td><label for="Color_text">Text</label></td>
+				<td><input type="text" id="Color_text" name="profile_text_color" class="color-input" value="{{ token_user.profile_text_color }}" /></td>
+			</tr>
+			<tr>
+				<td><label for="Color_links">Links</label></td>
+				<td><input type="text" id="Color_links" name="profile_link_color" class="color-input" value="{{ token_user.profile_link_color }}" /></td>
+			</tr>
+			<tr>
+				<td><label for="Color_sidebar">Sidebar</label></td>
+				<td><input type="text" id="Color_sidebar" name="profile_sidebar_fill_color" class="color-input" value="{{ token_user.profile_sidebar_fill_color }}" /></td>
+			</tr>
+			<tr>
+				<td><label for="Color_sidebar_border">Sidebar border</label></td>
+				<td><input type="text" id="Color_sidebar_border" name="profile_sidebar_border_color" class="color-input" value="{{ token_user.profile_sidebar_border_color }}" /></td>
+			</tr>
+			</table>
+			<div style="text-align:center;margin:10px;"><input type="submit" value="Save" /><input type="reset" value="Reset" /></div>
+			</form>
+			<div id="Ds_ColorPicker" class="color-picker-init"></div>
+
+		</div>
+	</div>
+</div>
+{% endblock main%}

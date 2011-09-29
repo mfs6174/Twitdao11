@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Retweets{% endblock title %}
+
+{% block head %}<script src="/js/common.js"></script>
+<script src="/js/tweet.js"></script>
+<script type="text/javascript">
+$(function(){
+	var active=false;
+	var count=18;
+	$('.tweet').live('click', function(){
+		var ths=$(this);
+		var sid =ths.attr('sid');
+		var tid =ths.attr('tid');
+		var id=sid?sid:tid;
+		var done=ths.data('done');
+		if(!done&&!active){
+			active=true;
+			startTinyTip('Loading...');
+			$.ajax({
+				'type':'GET',
+				'url':'/x/retweeted_by/'+id+'?count='+count,
+				'dataType':'json',
+				'success':function(d){
+					active=false;
+					if(d&&d.success){
+						ths.append(d.retweeted_by);
+						ths.data('done',true);
+						endTinyTip('Loaded.');
+					}else{
+						endTinyTip('Error!');
+					}
+					ths.css('cursor','auto');
+				},
+				'error':function(){
+					active=false;
+					endTinyTip('Error!');
+				}
+			});
+		}
+	});
+});
+$(function(){
+	var m = more('/x/retweets/{{ which }}/more', {'max_id': {{ max_id|to_json }} } );
+	var ref=refresh('/x/retweets/{{ which }}/refresh', {'since_id':{{ since_id|to_json }} });
+	ref.start();
+});
+</script>
+<style type="text/css">.tweet{cursor:pointer;}</style>
+{% if owner_user %}{% include "inc/user-style.html" %}{% endif %}
+{% endblock head %}
+
+{% block main %}
+{% include "inc/tweet-form.html" %}
+{% include "inc/main-nav.html" %}
+<div id="Timeline">
+	<div id="Tlheading">
+		<div>
+			{% ifequal where "retweeted_by_me" %}Retweets by you{% endifequal %}
+			{% ifequal where "retweeted_to_me" %}Retweets by others{% endifequal %}
+			{% ifequal where "retweeted_of_me" %}Your tweets, retweeted{% endifequal %}
+		</div>
+		<div id="LiveBar">
+			<div id="Pause"></div>
+			<div id="Mode"></div>
+		</div>
+	</div>
+	<div id="Notifier"></div>
+	<ul class="tweets">
+	{% if timeline %}
+	{% for tweet in timeline %}
+		{% include "inc/tweet.html" %}
+	{% endfor %}
+	{% else %}
+		<li class="nothing">No tweets here.</li>
+	{% endif %}
+	</ul>
+	{% if max_id %}<div id="pagination"><img class="loading" src="/images/loading.gif" alt="loading" /><a class="more" href="{{ self.current }}?max_id={{ max_id }}">More</a></div>{% endif %}
+</div>
+{% endblock main%}
+
+{% block side %}
+{% include "inc/side.html" %}
+{% endblock side %}

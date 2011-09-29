@@ -1,0 +1,9 @@
+<li class="message"{% ifequal token_user.id message.sender.id %} rname="{{ message.recipient.screen_name }}"{% else %} rname="{{ message.sender.screen_name }}"{% endifequal %}  mid="{{ message.id }}">
+	<span class="message-img">
+		<span class="sender"><img src="{{ message.sender.profile_image_url }}" width="48" height="48" /></span>
+		<span class="recipient"><img src="{{ message.recipient.profile_image_url }}" width="24" height="24" /></span>
+	</span>
+	<span class="message-heading">『<a class="sender-screen-name" href="/t/{{ message.sender.screen_name }}">{{ message.sender.screen_name }}</a> {{ message.sender.name }}』»『<a class="recipient-screen-name" href="/t/{{ message.recipient.screen_name }}">{{ message.recipient.screen_name }}</a> {{ message.recipient.name }}』</span>
+	<span class="message-body">{{ message.text|twitter_text_py|safe }}</span>
+	<span class="message-bottom">{% ifequal token_user.id message.sender.id %}<a class="reply-msg" href="/a/messages_new?screen_name={{ message.recipient.screen_name }}">Reply</a>{% else %}<a class="reply-msg" href="/a/messages_new?screen_name={{ message.sender.screen_name }}">Reply</a>{% endifequal %} <a class="delete-msg" href="/a/messages_destroy/{{ message.id }}">Delete</a></span>
+</li>

@@ -1,0 +1,3 @@
+{% extends "base.html" %}
+
+{% block main %}{% if favorites.error %}<p>Error or Not Found.</p>{% else %}{% ifnotequal token_user.id owner_user.id %}{% include "mobile/user-profile.html" %}{% else %}{% include "mobile/tweet-form.html" %}{% endifnotequal %}{% if favorites %}{% for tweet in favorites %}{% include "tweet.html" %}{% endfor %}{% else %}haha{% endif %}<p>{% if prev_page %}<a href="/m/u-{{ owner_user.screen_name }}/favs?page={{ prev_page }}">Prev</a>{% endif %}{% if next_page %}<a href="/m/u-{{ owner_user.screen_name }}/favs?page={{ next_page }}">Next</a>{% endif %}</p>{% endif %}{% endblock main %}

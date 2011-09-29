@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Messages you sent{% endblock title %}
+
+{% block head %}
+<script src="/js/common.js"></script>
+<script src="/js/message.js"></script>
+{% if owner_user %}{% include "inc/user-style.html" %}{% endif %}
+{% endblock head%}
+
+{% block main %}
+{% include "inc/message-form.html" %}
+<ul id="Nav">
+	<li><a{% ifequal where "inbox" %} class="on"{% endifequal %} href="/a/messages">Inbox</a></li>
+	<li><a{% ifequal where "sent" %} class="on"{% endifequal %} href="/a/messages_sent">Sent</a></li>
+</ul>
+<div id="Timeline">
+	<div id="Tlheading">Direct messages you've sent</div>
+	<ul class="messages">
+	{% if messages %}
+	{% for message in messages %}
+		{% include "inc/message.html" %}
+	{% endfor %}
+	{% else %}
+	<li class="nothing">No message.</li>
+	{% endif %}
+	</ul>
+	{% if max_id %}<div id="pagination"><img class="loading" src="/images/loading.gif" alt="loading" /><a class="more" href="{{ self.current }}?max_id={{ max_id }}">more</a></div>{% endif %}
+</div>
+{% endblock main%}
+
+{% block side %}
+{% include "inc/side.html" %}
+{% endblock side %}

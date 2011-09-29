@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}{% endblock title %}
+
+{% block head %}{% endblock head %}
+
+{% block main %}
+<h1>{{ title }}</h1>
+<div id="UserProfile">
+	<div class="img"><img src="{{ owner_user.profile_image_url }}" width="72" height="72" /></div>
+	<div class="name">{{ owner_user.name }}</div>
+	<div class="screen-location"><span class="screen-name">@{{ owner_user.screen_name }}</span> {{ owner_user.location }}</div>
+	<div class="bio">{{ owner_user.description }}</div>
+	<div class="url"><a href="{{ owner_user.url|default_if_none:"" }}" target="_blank">{{ owner_user.url }}</a></div>
+</div>
+<div id="UserStats">
+	<ul>
+		<li>
+			<a href="/t/{{ owner_user.screen_name }}">
+			<span class="count">{{ owner_user.statuses_count }}</span>
+			<span class="label">Tweets</span>
+			</a>
+		</li>
+		<li>
+			<a href="/t/{{ owner_user.screen_name }}/following">
+			<span class="count">{{ owner_user.friends_count }}</span>
+			<span class="label">Following</span>
+			</a>
+		</li>
+		<li>
+			<a href="/t/{{ owner_user.screen_name }}/followers">
+			<span class="count">{{ owner_user.followers_count }}</span>
+			<span class="label">Followers</span>
+			</a>
+		</li>
+		<li>
+			<a href="/t/{{ owner_user.screen_name }}/lists/memberships">
+			<span class="count">{{ owner_user.listed_count }}</span>
+			<span class="label">Listed</span>
+			</a>
+		</li>
+	</ul>
+	<div style="clear:both;"></div>
+</div>
+
+<div id="ConfirmAction">
+	<form action="{{ action }}" method="post" />
+	<input type="submit" value="{{ confirm }}" />
+	<input type="button" value="Cancel" onclick="javascript:history.go(-1);" />
+	</form>
+</div>
+{% endblock main %}
+
+{% block side %}
+{% include "inc/side.html" %}
+{% endblock side %}

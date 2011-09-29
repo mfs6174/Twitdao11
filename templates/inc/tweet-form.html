@@ -1,0 +1,21 @@
+<div id="TweetForm">
+	<div class="form">
+	<div class="heading"><h3>What's happening?</h3><span id="CharCounter">140</span></div>
+		<form action="/t/statuses/update" method="post">
+		<input id="In_reply_to_status_id" type="hidden" name="in_reply_to_status_id"{% if tweet %} value="{{ tweet.id }}"{% endif %} />
+		<textarea tabindex="1" id="Status" name="status">{% if tweet %}@{{ tweet.user.screen_name }} {% endif %}{% if screen_name %}@{{ screen_name }} {% endif %}</textarea>
+		<input id="UploadButton" type="button" value="Photo" />
+		<input id="TweetButton" tabindex="2" type="submit" value="Tweet" /></form>
+	</div>
+	<div id="UploadArea">
+		<a id="UploadCancel" href="javascript:void(0)">X</a>
+		<div id="UploadMedia">
+			<form id="UploadForm" target="IUpload" method="post" action="/x/upload_image" enctype="multipart/form-data">
+			<label for="UploadFile">Choose Photo File: </label><input id="UploadFile" type="file" name="media" />
+			</form>
+		</div>
+		<div id="UploadMask">Uploading...</div>
+		<div id="UploadPreview"></div>
+	</div>
+	<iframe id="IUpload" name="IUpload" src="about:blank"></iframe>
+</div>

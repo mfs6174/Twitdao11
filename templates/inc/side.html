@@ -1,0 +1,84 @@
+{% ifequal token_user.id owner_user.id %}
+<div id="SideProfile">
+	<div class="img"><a href="{{ owner_user.profile_image_url|origin_image|secure_image }}" target="_blank"><img src="{{ owner_user.profile_image_url|secure_image }}" width="48" height="48" alt="{{ owner_user.screen_name }}" /></a></div>
+	<div class="name">{{ owner_user.name }}</div>
+	{% if owner_user.verified %}<div class="v"><em>㊣√ Verified Account!</em></div>{% endif %}
+	<div class="screen-location"><span class="screen-name">@{{ owner_user.screen_name }}</span> {{ owner_user.location }}</div>
+	{% if owner_user.url %}<div class="url"><a href="{{ owner_user.url }}" target="_blank">{{ owner_user.url }}</a></div>{% endif %}
+	<div class="bio">{{ owner_user.description }}</div>
+</div>
+{% endifequal %}
+<ul id="UserStats">
+	<li>
+		<a href="/t/{{ owner_user.screen_name }}">
+		<span class="count" id="TweetsCount">{{ owner_user.statuses_count }}</span>
+		<span class="label">Tweets</span>
+		</a>
+	</li>
+	<li>
+		<a href="/t/{{ owner_user.screen_name }}/following">
+		<span class="count" id="FriendsCount">{{ owner_user.friends_count }}</span>
+		<span class="label">Following</span>
+		</a>
+	</li>
+	<li>
+		<a href="/t/{{ owner_user.screen_name }}/followers">
+		<span class="count" id="FollowersCount">{{ owner_user.followers_count }}</span>
+		<span class="label">Followers</span>
+		</a>
+	</li>
+	<li>
+		<a href="/t/{{ owner_user.screen_name }}/lists/memberships">
+		<span class="count" id="ListedCount">{{ owner_user.listed_count }}</span>
+		<span class="label">Listed</span>
+		</a>
+	</li>
+</ul>
+{% ifnotequal token_user.id owner_user.id %}
+<div id="Conns">
+	<div id="FFoF">
+	<h3>Also followed by:</h3>
+	</div>
+	<div id="FiCw">
+	<h3>You both follow:</h3>
+	</div>
+</div>
+{% endifnotequal %}
+<div class="side-tool">
+	<div class="side-tool-heading"><a>Lists</a></div>
+	<div class="side-tool-content">
+		<ul class="side-tool-menu">
+			<li class="side-tool-menu-item"><a href="/t/{{ owner_user.screen_name }}/lists">{% ifequal owner_user.id token_user.id %}My Lists{% else %}{{ owner_user.screen_name }}'s Lists{%endifequal%}</a></li>
+			<li class="side-tool-menu-item"><a href="/t/{{ owner_user.screen_name }}/lists/subscriptions">{% ifequal owner_user.id token_user.id %}My List Subscriptions{% else %}{{ owner_user.screen_name }}'s List Subscriptions{%endifequal%}</a></li>
+			<li class="side-tool-menu-item"><a href="/t/{{ owner_user.screen_name }}/lists/memberships">{% ifequal owner_user.id token_user.id %}My List Memberships{% else %}{{ owner_user.screen_name }}'s List Memberships{%endifequal%}</a></li>
+		{% ifequal token_user.id owner_user.id %}
+			<li class="side-tool-menu-item"><a href="/a/list_create">Create New List</a></li>
+		{% endifequal %}
+		</ul>
+	</div>
+</div>
+{% ifequal token_user.id owner_user.id %}
+<div class="side-tool">
+	<div class="side-tool-heading"><a href="/a/saved_searches">Saved Searches</a></div>
+	<div class="side-tool-content"><ul><li class="side-tool-menu-item"><a href="/a/search?q=%40{{ owner_user.screen_name }}">搜索 @{{ owner_user.screen_name }}</a></li></ul></div>
+</div>
+<div class="side-tool">
+	<div class="side-tool-heading"><a href="/a/blocking">Blocking</a></div>
+</div>
+{% endifequal %}
+{% ifnotequal token_user.id owner_user.id %}
+<div class="side-tool">
+	<div class="side-tool-heading"><a class="report" href="/a/report_spam/{{ owner_user.screen_name }}" data="{{ owner_user.screen_name }}">Report Spam</a></div>
+	<div class="side-tool-content"><ul><li class="side-tool-menu-item"><a href="/a/search?q=%40{{ owner_user.screen_name }}">搜索 @{{ owner_user.screen_name }}</a></li></ul></div>
+</div>
+{% endifnotequal %}
+<div class="side-tool">
+	<div class="side-tool-heading"><a>Help</a></div>
+	<div class="side-tool-content">
+		<ul class="side-tool-menu">
+			<li class="side-tool-menu-item"><a href="http://code.google.com/p/twitdao/">Source Code</a></li>
+			<li class="side-tool-menu-item"><a href="http://code.google.com/p/twitdao/issues/list">Report Bug</a></li>
+		</ul>
+		<div class="side-tool-menu-block"><a href="http://code.google.com/appengine/">Powered by Google App Engine</a></div>
+	</div>
+</div>

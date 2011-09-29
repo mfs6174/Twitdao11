@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}Saved Searches{% endblock title %}
+
+{% block head%}
+{% if owner_user %}{% include "inc/user-style.html" %}{% endif %}
+{% endblock head %}
+
+{% block main %}
+<div id="SavedSearches">
+	<div id="Tlheading">Saved Searches</div>
+	<ul class="searches">
+	{% if searches %}
+	{% for search in searches %}
+		<li class="search">
+			<a href="/a/search?q={{ search.query|urlencode }}">{{ search.name }}</a>
+		</li>
+	{% endfor %}
+	{% else %}
+		<li class="nothing">No saved search.</li>
+	{% endif %}
+	</ul>
+</div>
+{% endblock main%}
+
+{% block side %}
+{% include "inc/side.html" %}
+{% endblock side %}

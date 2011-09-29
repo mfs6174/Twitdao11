@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Twitdao Configrations {% block title %}{% endblock title %}</title>
+		<link href="/css/config.css" rel="stylesheet" type="text/css" />
+{% block head %}{% endblock head %}
+	</head>
+	<body>
+		<div id="Main">
+			<div id="Nav">
+			<ul>
+				<li><a href="/config"{% ifequal where "twitdao-config" %} class="on"{% endifequal %}>Twitdao</a></li>
+				<li><a href="/config/image_proxy"{% ifequal where "image_proxy-config" %} class="on"{% endifequal %}>Image Proxy</a></li>
+				<li><a href="/config/memcache"{% ifequal where "memcache-config" %} class="on"{% endifequal %}>Memcache</a></li>
+				<li><a href="/config/clean_up_accesses"{% ifequal where "clean-up-accesses" %} class="on"{% endifequal %} style="color:#f00;" target="_blank">Clean up Accesses</a></li>
+			</ul>
+			</div>
+			<div id="Configs">
+			{% block main %}{% endblock main %}
+			</div>
+		</div>
+	</body>
+</html>

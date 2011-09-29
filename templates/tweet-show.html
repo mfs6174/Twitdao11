@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %}{% endblock title %}
+
+{% block head %}
+{% include "inc/user-style.html" %}
+<style type="text/css">.tweet-body{font-size: 24px;}</style><script src="/js/common.js"></script>
+<script src="/js/tweet.js"></script>
+{% endblock head %}
+
+{% block main %}
+<ul>
+	{% include "inc/tweet.html" %}
+</ul>
+{% endblock main %}
+
+{% block side %}
+{% include "inc/side.html" %}
+{% endblock side %}

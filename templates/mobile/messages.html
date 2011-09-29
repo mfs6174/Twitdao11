@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block main %}
+{% include "message-form.html" %}
+<h2>{% ifequal at "inbox" %}[<a href="/m/m-inbox">Inbox</a>]{% else %}<a href="/m/m-inbox">Inbox</a>{% endifequal %} {% ifequal at "sent" %}[<a href="/m/m-sent">Sent</a>]{% else %}<a href="/m/m-sent">Sent</a>{% endifequal %}</h2>
+{% if messages %}{% for message in messages %}
+<p>{% ifequal at "inbox" %}From: <a class="p" href="/m/u-{{ message.sender.screen_name }}">{{ message.sender.screen_name }}</a>({{ message.sender.name }}){% else %}To: <a class="p" href="/m/u-{{ message.recipient.screen_name }}">{{ message.recipient.screen_name }}</a>({{ message.recipient.name }}){% endifequal %}, {{ message.text|m_twitter_text|safe }}
+<span class="a">{% ifequal token_user.id message.sender.id %}<a href="/m/m-send?screen_name={{ message.recipient.screen_name }}">Reply</a>{% else %}<a href="/m/m-send?screen_name={{ message.sender.screen_name }}">Reply</a>{% endifequal %} <a href="/m/m-del?id={{ message.id }}">Delete</a></span></p>{% endfor %}{% else %}<p class="b">No message.</p>{% endif %}
+<p>{% if since_id %}<a href="/m/m-sent?since_id={{ since_id }}">Newer</a>{% endif %} {% if max_id %}<a href="/m/m-sent?max_id={{ max_id }}">Older</a>{% else %}<a href="/m/m-sent">Back</a>{% endif %}</p>
+</div>
+{% endblock main%}

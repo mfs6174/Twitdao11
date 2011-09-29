@@ -1,0 +1,30 @@
+{% extends "config.html" %}
+{% block head %}{% endblock head %}
+{% block main %}
+<div id="Config">
+	<div id="ConfigHeading">Image Proxy Configurations</div>
+	<form action="/config/image_proxy" method="post">
+	<table width="80%" align="center">
+	<tr>
+		<td width="150"></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>Flickr API Key</td>
+		<td><input type="text" name="flickr_api_key" value="{{ image_proxy_config.flickr_api_key|default_if_none:"" }}" class="conf" /></td>
+	</tr>
+	<tr>
+		<td>Flickr API Secret</td>
+		<td><input type="text" name="flickr_api_secret" value="{{ image_proxy_config.flickr_api_secret|default_if_none:"" }}" class="conf" /></td>
+	</tr>
+	<tr>
+		<td>Flickr REST API URL</td>
+		<td><input type="text" name="flickr_rest_api_url" value="{{ image_proxy_config.flickr_rest_api_url|default_if_none:"" }}" class="conf" /></td>
+	</tr>
+	<tr>
+		<td colspan="2"><div align="center"><input type="submit" value="Save" /><input type="reset" value="Reset" /></div></td>
+	</tr>
+	</table>
+	</form>
+</div>
+{% endblock main %}

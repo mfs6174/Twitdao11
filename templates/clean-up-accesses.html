@@ -1,0 +1,13 @@
+{% extends "config.html" %}
+{% block head %}{% endblock head %}
+{% block main %}
+<div id="Config">
+	<div id="ConfigHeading">Clean Up Accesses</div>
+	<form action="/config/clean_up_accesses" method="post">
+	<div style="width:80%;margin:0 auto;height:100px;padding:20px;">
+	<div style="color:#f00;font-size:18px;text-align:center;">Warning: This action may costly! Are you sure to continue?</div>
+	<div style="text-align:center;padding:20px;"><input type="submit" value="Continue" /> <input type="button" value="Cancel" onclick="javascript:window.close();" /></div>
+	</div>
+	</form>
+</div>
+{% endblock main %}

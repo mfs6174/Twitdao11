@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>Twitdao {% block title %}{% endblock title %}</title>
+		<link href="/css/settings.css" rel="stylesheet" type="text/css" />
+		<script src="/js/jquery-1.4.2.min.js"></script>
+		<script src="/js/common.js"></script>
+{% include "inc/user-style.html" %}
+{% block head %}{% endblock head %}
+	</head>
+	<body>
+		<div id="Topbar">
+			<div class="toolbar">
+			<div class="logo"><a href="/t/">Twitdao</a></div>
+			<ul>
+				<li><a href="/t/">Home</a></li>
+				{% if token_user %}
+				<li><a href="/t/{{ token_user.screen_name }}">{{ token_user.screen_name }}</a></li>
+				<li><a href="/a/messages">Messages</a></li>
+				{% endif %}
+				<li><a href="/settings">Settings</a></li>
+				<li><a href="{{ self.logout_url }}">SignOut</a></li>
+			</ul>
+			</div>
+		</div>
+		<div id="Wrapper">
+			<div id="Main">
+				<div id="Back">
+					<div class="s-tl"><a href="/settings/auth">New Authorization</a></div>
+					{% ifnotequal where "settings" %}<div class="s-tr"><a href="/settings">← Back to token list.</a></div>{% endifnotequal %}
+				</div>
+				{% ifnotequal where "settings" %}
+				<div id="Nav">
+					<ul>
+						<li><a href="/settings/profile?tk={{ token_key }}"{% ifequal where "settings-profile" %} class="on"{% endifequal %}>Profile</a></li>
+						<li><a href="/settings/design?tk={{ token_key }}#colors"{% ifequal where "settings-design" %} class="on"{% endifequal %}>Design</a></li>
+						<li><a href="/settings/twitdao?tk={{ token_key }}"{% ifequal where "settings-twitdao" %} class="on"{% endifequal %}>Twitdao</a></li>
+					</ul>
+				</div>
+				{% endifnotequal %}
+			{% block main %}{% endblock main %}
+			</div>
+		</div>
+	</body>
+</html>

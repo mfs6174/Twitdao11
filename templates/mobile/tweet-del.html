@@ -1,0 +1,6 @@
+{% extends "base.html" %}
+
+{% block main %}
+<p>Delete this tweet?</p>
+<p><a href="/m/u-{{ tweet.user.screen_name }}" class="p">{{ tweet.user.screen_name }}</a> {{ tweet.text|m_twitter_text }}<span class="t"> {{ tweet.created_at|human_readable }} via {{ tweet.source|safe }}</span></p><form action="/m/t-{{ tweet.id|tweet_id_encode }}/del" method="post"><p><input type="submit" value="Delete"></p></form>
+{% endblock main%}

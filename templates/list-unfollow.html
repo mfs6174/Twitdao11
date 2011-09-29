@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}{% endblock title %}
+
+{% block head %}
+{% if owner_user %}{% include "inc/user-style.html" %}{% endif %}
+{% endblock head %}
+
+{% block main %}
+<div id="Confirm">
+<div class="confirm-heading">UnFollow this list?</div>
+
+<div class="list" slug="{{ list.slug }}" lid="{{ list.id }}">
+	<span class="list-img"><img src="{{ list.user.profile_image_url }}" width="36" height="36" /></span>
+	<span class="list-heading">{% ifequal list.mode "private" %}<img src="/images/lock.gif" />{% endifequal %}<a href="/t{{ list.uri }}/">{{ list.full_name }}</a> </span>
+	<span class="list-bio">{{ list.description }}</span>
+</div>
+
+<div id="ConfirmAction">
+	<form action="" method="post" />
+	<input type="submit" value="UnFollow" />
+	<input type="button" value="Cancel" onclick="javascript:history.go(-1);" />
+	</form>
+</div>
+</div>
+{% endblock main %}
+
+{% block side %}
+{% include "inc/side.html" %}
+{% endblock side %}

@@ -1,0 +1,31 @@
+{% extends "settings-base.html" %}
+
+{% block title %}{% endblock title %}
+
+{% block head %}{% endblock head %}
+
+{% block main %}
+<div id="Settings">
+	<div class="heading">Your authorized access tokens:</div>
+	<table width="70%">
+		{% if tokens %}
+		{% for token in tokens %}
+		<tr>
+			<td><a href="/settings/profile?tk={{ token.key }}">{{ token.screen_name }}</a></td>
+			{% ifequal token.key default_token.key %}
+			<td width="55">Default</td>
+			<td width="55"><form action="/settings/delete_token" method="post"><input type="hidden" name="token_key" value="{{ token.key }}"><input type="submit" value="Delete"></form></td>
+			{% else %}
+			<td width="55"><form action="/settings/set_default_token" method="post"><input type="hidden" name="token_key" value="{{ token.key }}"><input type="submit" value="Set as default"></form></td>
+			<td width="55"><form action="/settings/delete_token" method="post"><input type="hidden" name="token_key" value="{{ token.key }}"><input type="submit" value="Delete" onclick="return confirm('Are you sure? \n\n Token {{ token.screen_name }} will be deleted.')"></form></td>
+			{% endifequal %}
+		</tr>
+		{% endfor %}
+		{% else %}
+		<tr class="nothing">
+			<td><a href="/settings/auth">Authenticate An Access Token</a></td>
+		</tr>
+		{% endif %}
+	</table>
+</div>
+{% endblock main%}

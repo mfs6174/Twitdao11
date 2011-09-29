@@ -1,0 +1,66 @@
+application: autoproxy-pac
+version: twitdao
+runtime: python
+api_version: 1
+
+
+inbound_services:
+- warmup
+
+
+handlers:
+- url: /favicon\.ico
+  static_files: static/favicon.ico
+  upload: static/favicon\.ico
+
+- url: /robots\.txt
+  static_files: static/robots.txt
+  upload: static/robots\.txt
+
+- url: /images
+  static_dir: static/images
+
+- url: /js
+  static_dir: static/js
+
+- url: /css
+  static_dir: static/css
+
+- url: /
+  script: index.py
+
+- url: /user/.+
+  script: user.py
+
+- url: /config.*
+  script: config.py
+  login: admin
+  secure: always
+
+- url: /q/.*
+  script: queue.py
+  login: admin
+
+- url: /settings.*
+  script: settings.py
+  login: required
+
+
+- url: /i/.*
+  script: image_proxy.py
+
+- url: /x1/.+
+  script: ajax1.py
+
+- url: /x/.+
+  script: ajax.py
+  login: required
+
+- url: /(t|a/).*
+  script: main.py
+  login: required
+
+- url: /m(|/.*)
+  script: mobile.py
+  login: required
+

@@ -1,0 +1,54 @@
+{% extends "config.html" %}
+{% block head %}{% endblock head %}
+{% block main %}
+<div id="Config">
+	<div id="ConfigHeading">Twitdao Configurations</div>
+	<form action="/config" method="post">
+	<table width="80%" align="center">
+	<tr>
+		<td width="150"></td>
+		<td></td>
+	</tr>
+	<tr>
+		<td>Consumer Key</td>
+		<td><input type="text" name="consumer_key" value="{{ app_config.consumer_key|default_if_none:"" }}" class="conf" /></td>
+	</tr>
+	<tr>
+		<td>Consumer Secret</td>
+		<td><input type="text" name="consumer_secret" value="{{ app_config.consumer_secret|default_if_none:"" }}" class="conf" /></td>
+	</tr>
+	<tr>
+		<td>Request Token URL</td>
+		<td><input type="text" name="request_token_url" value="{{ app_config.request_token_url|default_if_none:"" }}" class="conf" /></td>
+	</tr>
+	<tr>
+		<td>Access Token URL</td>
+		<td><input type="text" name="access_token_url" value="{{ app_config.access_token_url|default_if_none:"" }}" class="conf" /></td>
+	</tr>
+	<tr>
+		<td>Authorize URL</td>
+		<td><input type="text" name="authorize_url" value="{{ app_config.authorize_url|default_if_none:"" }}" class="conf" /></td>
+	</tr>
+	<tr>
+		<td>Authenticate URL</td>
+		<td><input type="text" name="authenticate_url" value="{{ app_config.authenticate_url|default_if_none:"" }}" class="conf" /></td>
+	</tr>
+	<tr>
+		<td>API URL</td>
+		<td><input type="text" name="api_url" value="{{ app_config.api_url|default_if_none:"" }}" class="conf" /></td>
+	</tr>
+	<tr>
+		<td>Search API URL</td>
+		<td><input type="text" name="search_api_url" readonly="readonly" style="background-color:#ccc;" value="{{ app_config.search_api_url|default_if_none:""|default_if_none:"" }}" class="conf" /></td>
+	</tr>
+	<tr>
+		<td>Twitpic API Key</td>
+		<td><input type="text" name="twitpic_api_key" value="{{ app_config.twitpic_api_key|default_if_none:"" }}" class="conf" /></td>
+	</tr>
+	<tr>
+		<td colspan="2"><div align="center"><input type="submit" value="Save" /><input type="reset" value="Reset" /></div></td>
+	</tr>
+	</table>
+	</form>
+</div>
+{% endblock main %}

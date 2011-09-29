@@ -1,0 +1,6 @@
+<li class="user">
+	<span class="user-img"><img src="{{ user.profile_image_url|secure_image }}" width="48" height="48" /></span>
+	<span class="user-heading"><a href="/t/{{ user.screen_name }}">{{ user.screen_name }}</a> {{ user.name }} Followers:{{ user.followers_count }} Following:{{ user.friends_count }} Tweets:{{ user.statuses_count }}</span>
+	<span class="user-bio">{{ user.description|default_if_none:"" }}</span>
+	<span class="user-bottom">{% ifnotequal token_user.id user.id %}{% if not user.following %}<a class="follow" href="/a/follow/{{ user.screen_name }}" data="{{ user.screen_name }}">Follow</a>{% else %}<a class="unfollow" href="/a/unfollow/{{ user.screen_name }}" data="{{ user.screen_name }}">Unfollow</a>{% endif %}{% endifnotequal %} {% if list %}<a class="remove-from-list" href="/a/list_remove/{{ list.slug }}/{{ user.screen_name }}">RemoveFromList</a>{% endif %}</span>
+</li>
