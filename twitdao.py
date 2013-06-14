@@ -54,7 +54,7 @@ class Twitdao():
 
     #==========================================================================
     def _cache_timeline(self, timeline, **params):
-        if not 'error' in timeline:
+        if not 'errors' in timeline:
             trim_user=params['trim_user'] if 'trim_user' in params else None
             include_entities=params['include_entities'] if 'include_entities' in params else None
             td=dict(('%s-%s-%s' % (tweet['id_str'], trim_user, include_entities), tweet) for tweet in timeline)
@@ -62,7 +62,7 @@ class Twitdao():
         return False
     
     def _cache_tweet(self, tweet, **params):
-        if not 'error' in tweet:
+        if not 'errors' in tweet:
             trim_user=params['trim_user'] if 'trim_user' in params else None
             include_entities=params['include_entities'] if 'include_entities' in params else None
             return memcache.set( 'tweet-%s-%s-%s' % (tweet['id_str'], trim_user, include_entities), tweet, time=TWEET_CACHE_TIME,)
@@ -80,7 +80,7 @@ class Twitdao():
 
     #好像不好。
     def _cache_users(self, users, **params):
-        if not 'error' in users:
+        if not 'errors' in users:
             include_entities = params['include_entities'] if 'include_entities' in params else None
             us=dict(('%s-%s' % (user['id_str'], include_entities), user) for user in users)
             us.update(dict(('%s-%s' % (user['screen_name'], include_entities), user) for user in users))
@@ -88,7 +88,7 @@ class Twitdao():
         return False
 
     def _cache_user(self, user, **params):
-        if not 'error' in user:
+        if not 'errors' in user:
             include_entities = params['include_entities'] if 'include_entities' in params else None
             return memcache.set_multi({
                 ('id-%s-%s' % (user['id_str'], include_entities)):user,
