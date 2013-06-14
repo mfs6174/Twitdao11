@@ -43,7 +43,10 @@ _googlfb = re.compile('http://goo\.gl/fb/(?P<id>[0-9a-zA-Z_\-]+)', re.I)
 @stringfilter
 def image_preview(url):
     ''' show photo thumbnails '''
-    url,is_short= url_unshort(url)
+    try:
+        url,is_short= url_unshort(url)
+    except:
+         return '<span class="unshorturl"><a href="%s" target="_blank" rel="noreferrer">%s</a></span>' % (url,url)
     m=_twitpic.search(url)
     if m:
         twitpic_id=m.group('id')
