@@ -421,7 +421,7 @@ class Twitdao():
             del params['id']
             favorites = self.twitter.api_call('GET', 'favorites/%s' % id, params)
         else:
-            favorites = self.twitter.api_call('GET', 'favorites', params)
+            favorites = self.twitter.api_call('GET', 'favorites/list', params)
         return favorites
 
     def favorites_create(self, id, **params):
@@ -495,18 +495,18 @@ class Twitdao():
     
     def blocks_blocking(self, **params):
         #page, include_entities
-        blocking = self.twitter.api_call('GET', 'blocks/blocking', params)
+        blocking = self.twitter.api_call('GET', 'blocks/list', params)
         return blocking#user list
 
     #Spam Reporting resources
     def report_spam(self, **params):
         #user_id, screen_name, include_entities
-        user = self.twitter.api_call('POST', 'report_spam', params)
+        user = self.twitter.api_call('POST', 'users/report_spam', params)
         return user
     
     #Saved Searches Resources
     def saved_searches(self):
-        return self.twitter.api_call('GET','saved_searches')
+        return self.twitter.api_call('GET','saved_searches/list')
 
     def API_limit_rate(self):
         return self.twitter.api_call('GET','account/rate_limit_status')
