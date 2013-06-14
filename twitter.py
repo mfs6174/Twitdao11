@@ -117,7 +117,11 @@ class Twitter:
                 headers['Content-Type']='multipart/form-data; boundary=%s' % boundary
             else:
                 payload=urllib.urlencode(params)
-        res=urlfetch.fetch(url, payload, _http_methods[method.upper()], headers)
+        try:
+            res=urlfetch.fetch(url, payload, _http_methods[method.upper()], headers)
+        except:
+            self.http_status=500
+            return ''
         self.http_status=res.status_code
         self.http_headers=res.headers
         self.http_body=res.content
