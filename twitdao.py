@@ -115,7 +115,7 @@ class Twitdao():
 
     def public_timeline(self, **params):
         #trim_user, include_entities
-        timeline = self.twitter.api_call('GET','statuses/public_timeline', params)
+        timeline = self.twitter.api_call('GET','statuses/sample', params)
         return timeline
 
     def home_timeline(self, **params):
@@ -138,7 +138,7 @@ class Twitdao():
 
     def mentions(self, **params):
         #since_id, max_id, count, page, trim_user, include_rts, include_entities
-        timeline = self.twitter.api_call('GET','statuses/mentions', params)
+        timeline = self.twitter.api_call('GET','statuses/mentions_timeline', params)
         self._cache_timeline(timeline, **params)
         return timeline
 
@@ -266,12 +266,12 @@ class Twitdao():
 
     def statuses_friends(self, **params):
         #user_id, screen_name, cursor, include_entities
-        friends = self.twitter.api_call('GET', 'statuses/friends', params)
+        friends = self.twitter.api_call('GET', 'friends/list', params)
         return friends
 
     def statuses_followers(self, **params):
         #user_id, screen_name, cursor, include_entities
-        followers = self.twitter.api_call('GET', 'statuses/followers', params)
+        followers = self.twitter.api_call('GET', 'followers/list', params)
         return followers
 
     #List Resources

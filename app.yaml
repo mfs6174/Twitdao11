@@ -1,5 +1,5 @@
-application: autoproxy-pac
-version: twitdao
+application: mfstuidao
+version: 2
 runtime: python
 api_version: 1
 

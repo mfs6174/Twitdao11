@@ -22,8 +22,8 @@ class AppConfig(db.Model):
     authorize_url = db.StringProperty(default='https://twitter.com/oauth/authorize')
     authenticate_url = db.StringProperty(default='https://twitter.com/oauth/authenticate')
 
-    api_url = db.StringProperty(default='https://api.twitter.com/1/')
-    search_api_url = db.StringProperty(default='http://search.twitter.com/')
+    api_url = db.StringProperty(default='https://api.twitter.com/1.1/')
+    search_api_url = db.StringProperty(default='https://api.twitter.com/1.1/search/')
 
     twitpic_api_key = db.StringProperty(default='')
 

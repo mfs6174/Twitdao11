@@ -21,8 +21,8 @@ ACCESS_TOKEN_URL = 'https://api.twitter.com/oauth/access_token'
 AUTHORIZE_URL = 'https://twitter.com/oauth/authorize'
 AUTHENTICATE_URL = 'https://twitter.com/oauth/authenticate'
 
-API_URL = 'https://api.twitter.com/1/'
-SEARCH_API_URL = 'http://search.twitter.com/'
+API_URL = 'https://api.twitter.com/1.1/'
+SEARCH_API_URL = 'https://api.twitter.com/1.1/search/'
 
 
 MAX_FETCH_COUNT = 5
@@ -246,7 +246,7 @@ class Twitter:
         pms={'q':q}
         pms.update(params)
         data = urllib.urlencode(pms)
-        return json.loads(urllib.urlopen(''.join([self.search_api_url, 'search.json']), data).read())
+        return json.loads(urllib.urlopen(''.join([self.search_api_url, 'tweets.json']), data).read())
 
     def hacked_search(self, q, since_id=None, page=None):
         # since_id, page(next_page)
