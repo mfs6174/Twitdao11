@@ -624,11 +624,11 @@ function more(more_url, params){
 function refresh(url, params){
 
 	var live_initial=3000; //恢复时间
-	var live_interval=5000; //显示间隔时间
+	var live_interval=70*1000; //显示间隔时间
 
-	var interval=5000;
-	var min_interval=3000; //最短刷新时(暂定)
-	var max_interval = 60*1000; //最长刷新间隔(暂定)
+	var interval=70*1000;
+	var min_interval=70*1000; //最短刷新时(暂定)
+	var max_interval = 5*60*1000; //最长刷新间隔(暂定)
 	var decay=1.5; //刷新间隔调整系数(暂定)
 
 	var counter=0;//for logging.
